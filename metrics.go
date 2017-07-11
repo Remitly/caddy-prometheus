@@ -2,8 +2,6 @@ package metrics
 
 import "github.com/prometheus/client_golang/prometheus"
 
-const namespace = "caddy"
-
 var (
 	requestCount    *prometheus.CounterVec
 	requestDuration *prometheus.HistogramVec
@@ -16,14 +14,12 @@ func define(subsystem string) {
 		subsystem = "http"
 	}
 	requestCount = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "request_count_total",
 		Help:      "Counter of HTTP(S) requests made.",
 	}, []string{"host", "family", "proto"})
 
 	requestDuration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
-		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "request_duration_seconds",
 		Help:      "Histogram of the time (in seconds) each request took.",
@@ -31,7 +27,6 @@ func define(subsystem string) {
 	}, []string{"host", "family", "proto"})
 
 	responseSize = prometheus.NewHistogramVec(prometheus.HistogramOpts{
-		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "response_size_bytes",
 		Help:      "Size of the returns response in bytes.",
@@ -39,7 +34,6 @@ func define(subsystem string) {
 	}, []string{"host"})
 
 	responseStatus = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: namespace,
 		Subsystem: subsystem,
 		Name:      "response_status_count_total",
 		Help:      "Counter of response status codes.",
